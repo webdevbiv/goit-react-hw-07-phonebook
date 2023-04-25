@@ -9,8 +9,8 @@ import { selectContacts } from 'redux/selectors';
 
 function ContactList() {
   const distpatch = useDispatch();
-
   const contacts = useSelector(selectContacts);
+  console.log(contacts);
 
   return (
     <ListGroup>
