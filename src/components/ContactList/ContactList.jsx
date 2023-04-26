@@ -10,7 +10,6 @@ import { selectContacts } from 'redux/selectors';
 function ContactList() {
   const distpatch = useDispatch();
   const contacts = useSelector(selectContacts);
-  console.log(`test: ${contacts}`);
 
   return (
     <ListGroup>
