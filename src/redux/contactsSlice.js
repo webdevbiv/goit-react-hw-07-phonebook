@@ -1,10 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
 
 const constactsSlice = createSlice({
   name: 'contacts',
-  initialState: { list: [] },
+  initialState: { list: [], isLoading: false, error: null },
   reducers: {
     addContact(state, action) {
       state.list = [...state.list, action.payload];
@@ -15,14 +13,5 @@ const constactsSlice = createSlice({
   },
 });
 
-const persistConfig = {
-  key: 'contacts',
-  storage,
-};
-
-export const contactsReducer = persistReducer(
-  persistConfig,
-  constactsSlice.reducer
-);
-
+export const contactsReducer = constactsSlice.reducer;
 export const { addContact, deleteContact } = constactsSlice.actions;
