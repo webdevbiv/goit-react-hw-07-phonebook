@@ -1,29 +1,39 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { getContactsThunk } from './thunk';
 
-import { getProductsThunk } from './thunk';
-
-const handleFulfilledGet = (state, { payload }) => {
-  state.list = payload;
+const handleGetPending = (state, _) => {
+  state.isLoading = true;
+};
+const handleGetFulfilled = (state, { payload }) => {
+  state.isLoading = false;
+  state.contacts = payload;
+  state.error = '';
+  console.log(state.contacts);
+};
+const handleGetRejected = (state, { payload }) => {
+  state.isLoading = false;
+  state.error = payload;
 };
 
 const constactsSlice = createSlice({
   name: 'contacts',
-  reducers: {
-    addContact(state, action) {
-      state.list = [...state.list, action.payload];
-    },
-    deleteContact(state, action) {
-      state.list = state.list.filter(({ id }) => id !== action.payload);
-    },
-  },
+  initialState: { contacts: [], isLoading: false, error: null },
+  // reducers: {
+  //   addContact(state, action) {
+  //     state.list = [...state.list, action.payload];
+  //   },
+  //   deleteContact(state, action) {
+  //     state.list = state.list.filter(({ id }) => id !== action.payload);
+  //   },
+  // },
 
-  initialState: { list: [], isLoading: false, error: null },
   extraReducers: builder => {
-    builder.addCase(getProductsThunk.fulfilled, handleFulfilledGet);
+    builder
+      .addCase(getContactsThunk.pending, handleGetPending)
+      .addCase(getContactsThunk.fulfilled, handleGetFulfilled)
+      .addCase(getContactsThunk.rejected, handleGetRejected);
   },
 });
-
-console.log(handleFulfilledGet);
 
 export const contactsReducer = constactsSlice.reducer;
 export const { addContact, deleteContact } = constactsSlice.actions;
