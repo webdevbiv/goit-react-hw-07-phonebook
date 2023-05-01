@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import React, { useEffect } from 'react';
 import { getContactsThunk, deleteContactThunk } from 'redux/thunk';
+import { getfilteredContacts } from 'redux/selectors';
 
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
@@ -10,6 +11,7 @@ import s from '../ContactList/ContactList.module.scss';
 function ContactList() {
   const distpatch = useDispatch();
   const { contacts, isLoading, error } = useSelector(state => state.contacts);
+  const filteredContacts = useSelector(getfilteredContacts);
 
   useEffect(() => {
     distpatch(getContactsThunk());
@@ -21,7 +23,7 @@ function ContactList() {
       {error && <div>Error: {error.message}</div>}
       {contacts && (
         <ListGroup>
-          {contacts.map(contact => (
+          {filteredContacts.map(contact => (
             <ListGroup.Item key={contact.id} className={s.item}>
               <div>
                 {contact.name}: {contact.phone}

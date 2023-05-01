@@ -8,8 +8,8 @@ export function Filter() {
   const dispatch = useDispatch();
 
   const onChange = e => {
-    const filter = e.target;
-    dispatch(filterContacts(filter.value));
+    const filter = e.target.value;
+    dispatch(filterContacts(filter));
   };
 
   return (

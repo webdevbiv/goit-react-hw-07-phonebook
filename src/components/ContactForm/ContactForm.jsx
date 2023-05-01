@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from 'nanoid';
 import { ToastContainer, toast } from 'react-toastify';
 import { addContactThunk } from 'redux/thunk';
+import { selectContacts } from 'redux/selectors';
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -10,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
-  const { contacts } = useSelector(state => state.contacts);
+  const contacts = useSelector(selectContacts);
 
   const handleSubmit = e => {
     e.preventDefault();
