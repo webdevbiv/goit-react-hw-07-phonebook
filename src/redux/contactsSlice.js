@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getContactsThunk } from './thunk';
+import { addContactThunk, getContactsThunk, deleteContactThunk } from './thunk';
 
-const handleGetPending = (state, _) => {
+const handlePending = (state, _) => {
   state.isLoading = true;
 };
 const handleGetFulfilled = (state, { payload }) => {
@@ -10,7 +10,14 @@ const handleGetFulfilled = (state, { payload }) => {
   state.error = '';
   console.log(state.contacts);
 };
-const handleGetRejected = (state, { payload }) => {
+const handlePostFulfilled = (state, { payload }) => {
+  state.contacts.push(payload);
+};
+const handleDeleteFulfilled = (state, { payload }) => {
+  state.contacts = state.contacts.filter(contact => contact.id !== payload);
+  console.log(payload);
+};
+const handleRejected = (state, { payload }) => {
   state.isLoading = false;
   state.error = payload;
 };
@@ -18,22 +25,19 @@ const handleGetRejected = (state, { payload }) => {
 const constactsSlice = createSlice({
   name: 'contacts',
   initialState: { contacts: [], isLoading: false, error: null },
-  // reducers: {
-  //   addContact(state, action) {
-  //     state.list = [...state.list, action.payload];
-  //   },
-  //   deleteContact(state, action) {
-  //     state.list = state.list.filter(({ id }) => id !== action.payload);
-  //   },
-  // },
 
   extraReducers: builder => {
     builder
-      .addCase(getContactsThunk.pending, handleGetPending)
+      .addCase(getContactsThunk.pending, handlePending)
       .addCase(getContactsThunk.fulfilled, handleGetFulfilled)
-      .addCase(getContactsThunk.rejected, handleGetRejected);
+      .addCase(getContactsThunk.rejected, handleRejected)
+      .addCase(addContactThunk.pending, handlePending)
+      .addCase(addContactThunk.fulfilled, handlePostFulfilled)
+      .addCase(addContactThunk.rejected, handleRejected)
+      .addCase(deleteContactThunk.pending, handlePending)
+      .addCase(deleteContactThunk.fulfilled, handleDeleteFulfilled)
+      .addCase(deleteContactThunk.rejected, handleRejected);
   },
 });
 
 export const contactsReducer = constactsSlice.reducer;
-export const { addContact, deleteContact } = constactsSlice.actions;

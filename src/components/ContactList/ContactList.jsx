@@ -1,7 +1,6 @@
-import { deleteContact } from 'redux/contactsSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import React, { useEffect } from 'react';
-import { getContactsThunk } from 'redux/thunk';
+import { getContactsThunk, deleteContactThunk } from 'redux/thunk';
 
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
@@ -11,8 +10,6 @@ import s from '../ContactList/ContactList.module.scss';
 function ContactList() {
   const distpatch = useDispatch();
   const { contacts, isLoading, error } = useSelector(state => state.contacts);
-  const state = useSelector(state => state);
-  console.log(state.contacts);
 
   useEffect(() => {
     distpatch(getContactsThunk());
@@ -30,7 +27,7 @@ function ContactList() {
               <Button
                 variant="primary"
                 type="button"
-                onClick={() => distpatch(deleteContact(contact.id))}
+                onClick={() => distpatch(deleteContactThunk(contact.id))}
               >
                 Delete
               </Button>
