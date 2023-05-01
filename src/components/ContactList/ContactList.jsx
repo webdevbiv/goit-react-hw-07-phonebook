@@ -17,6 +17,8 @@ function ContactList() {
 
   return (
     <>
+      {isLoading && <div>Loading...</div>}
+      {error && <div>Error: {error.message}</div>}
       {contacts && (
         <ListGroup>
           {contacts.map(contact => (

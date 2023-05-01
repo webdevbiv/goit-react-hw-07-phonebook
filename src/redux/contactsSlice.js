@@ -12,9 +12,11 @@ const handleGetFulfilled = (state, { payload }) => {
 };
 const handlePostFulfilled = (state, { payload }) => {
   state.contacts.push(payload);
+  state.isLoading = false;
 };
 const handleDeleteFulfilled = (state, { payload }) => {
   state.contacts = state.contacts.filter(contact => contact.id !== payload);
+  state.isLoading = false;
   console.log(payload);
 };
 const handleRejected = (state, { payload }) => {

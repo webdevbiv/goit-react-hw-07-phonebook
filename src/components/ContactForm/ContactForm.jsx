@@ -10,7 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
-  const { contacts, isLoading, error } = useSelector(state => state.contacts);
+  const { contacts } = useSelector(state => state.contacts);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -53,6 +53,7 @@ export const ContactForm = () => {
         draggable={false}
         theme="light"
       />
+
       <Form id="contact" onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
           <Form.Label> Name </Form.Label>
